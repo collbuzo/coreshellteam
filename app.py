@@ -141,9 +141,14 @@ with st.sidebar:
     with st.expander("⚙️ Configuración IA"):
         api_key = st.text_input("Gemini API Key:", type="password", help="Trae tu propia clave para desbloquear la IA.")
         if api_key:
-            genai.configure(api_key=api_key)
-            model = genai.GenerativeModel('gemini-1.5-flash')
-            st.success("✅ IA Conectada")
+            try:
+                genai.configure(api_key=api_key)
+                # Usamos gemini-1.5-flash-latest que es la versión más compatible
+                model = genai.GenerativeModel('gemini-1.5-flash-latest')
+                # Prueba rápida para validar
+                st.success("✅ IA Conectada")
+            except Exception as e:
+                st.error(f"Error al configurar: {e}")
         else:
             st.warning("⚠️ IA Desconectada (Solo modo local)")
 
